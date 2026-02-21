@@ -1,4 +1,4 @@
-﻿# Astro Life (Godot Vertical Slice)
+# Astro Life (Godot Vertical Slice)
 
 ## Versao recomendada
 - Godot 4.x com suporte C#/.NET (recomendado: Godot 4.2+ .NET)
@@ -48,6 +48,33 @@
 - Tiles base 32x32: `godot/AstroLifeGodot/Art/Tiles/tileset_base_32.png`
 - UI 16px grid: `godot/AstroLifeGodot/Art/UI/*`
 - Boss concept render: `godot/AstroLifeGodot/Art/Enemies/collector_boss_body_160x96.png`
+
+## Pipeline de assets (Godot 4 C#)
+- Registry central: `godot/AstroLifeGodot/Scripts/Core/AssetRegistry.cs`
+- Autoload ativo: `AssetRegistry` no `project.godot`
+- Todos os nodes visuais carregam textura por chave logica (com fallback):
+  - Player: `PlayerMale`, `PlayerFemale`
+  - Tiles: `Tile_Metal_A`, `Platform_Metal_A`
+  - Props: `OxygenPickup`, `Checkpoint`, `Portal`
+  - UI: `UI_OxygenBar`, `UI_OxygenBarFill`, `UI_OxygenIcon`
+  - Boss: `Boss_Body`, `Boss_Core`
+- Se o arquivo nao existir, o jogo usa o placeholder atual e loga:
+  - `Missing art asset: ...`
+
+## Onde colocar os PNGs (auto-aplica)
+- `godot/AstroLifeGodot/Art/Characters/PlayerMale.png` (spritesheet 64x64 horizontal)
+- `godot/AstroLifeGodot/Art/Characters/PlayerFemale.png` (spritesheet 64x64 horizontal)
+- `godot/AstroLifeGodot/Art/Tiles/StationTiles.png` (tileset base 32x32)
+- `godot/AstroLifeGodot/Art/Tiles/Platform_Metal_A.png`
+- `godot/AstroLifeGodot/Art/UI/OxygenBar.png`
+- `godot/AstroLifeGodot/Art/UI/OxygenBarFill.png`
+- `godot/AstroLifeGodot/Art/UI/OxygenIcon.png`
+- `godot/AstroLifeGodot/Art/Props/OxygenPickup.png`
+- `godot/AstroLifeGodot/Art/Props/Checkpoint.png`
+- `godot/AstroLifeGodot/Art/Enemies/CollectorBoss.png`
+- `godot/AstroLifeGodot/Art/Enemies/CollectorBossCore.png`
+
+Ao substituir esses arquivos, nao precisa editar cena/script: o jogo aplica automaticamente no load.
 
 ## Onde ajustar balanceamento
 - Dreno base de oxigenio:

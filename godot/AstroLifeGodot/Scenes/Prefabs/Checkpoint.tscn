@@ -1,4 +1,4 @@
-﻿[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://Scripts/Systems/Checkpoint.cs" id="1_checkpoint"]
 [ext_resource type="Texture2D" path="res://Art/Systems/checkpoint_beacon_48x64.png" id="2_beacon"]

@@ -1,4 +1,4 @@
-﻿[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://Scripts/Enemies/CollectorBoss2D.cs" id="1_boss"]
 [ext_resource type="Texture2D" path="res://Art/Enemies/collector_boss_body_160x96.png" id="2_body"]

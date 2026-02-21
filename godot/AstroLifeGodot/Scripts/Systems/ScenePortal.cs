@@ -1,4 +1,4 @@
-﻿using Godot;
+using Godot;
 using System.IO;
 
 public partial class ScenePortal : Area2D
@@ -9,7 +9,22 @@ public partial class ScenePortal : Area2D
     {
         BodyEntered += OnBodyEntered;
 
+        Sprite2D visual = GetNodeOrNull<Sprite2D>("Visual");
         Label label = GetNodeOrNull<Label>("Label");
+
+        if (visual != null)
+        {
+            if (AssetRegistry.Instance != null)
+            {
+                visual.Texture = AssetRegistry.Instance.GetTexture(AssetRegistry.Portal, visual.Texture);
+                AssetRegistry.Instance.ApplyNearest(visual);
+            }
+            else
+            {
+                visual.TextureFilter = CanvasItem.TextureFilterEnum.Nearest;
+            }
+        }
+
         if (label != null && !string.IsNullOrWhiteSpace(NextScenePath))
         {
             label.Text = Path.GetFileNameWithoutExtension(NextScenePath);

@@ -1,4 +1,4 @@
-﻿[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://Scripts/Systems/OxygenPickup.cs" id="1_pickup"]
 [ext_resource type="Texture2D" path="res://Art/Pickups/oxygen_capsule_32.png" id="2_capsule"]

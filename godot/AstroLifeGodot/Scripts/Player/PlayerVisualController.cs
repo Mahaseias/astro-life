@@ -18,7 +18,7 @@ public partial class PlayerVisualController : Sprite2D
 
     public override void _Ready()
     {
-        TextureFilter = TextureFilterEnum.Nearest;
+        TextureFilter = CanvasItem.TextureFilterEnum.Nearest;
         _player = GetParentOrNull<PlayerController>();
         LoadCharacterFrames();
         SetState("idle");
@@ -54,28 +54,50 @@ public partial class PlayerVisualController : Sprite2D
     {
         bool useFemale = GameSession.Instance != null && GameSession.Instance.SelectedCharacter == GameSession.CharacterFemale;
 
-        string basePath = useFemale
-            ? "res://Art/Characters/Female/female_"
-            : "res://Art/Characters/Male/male_";
-
         Texture2D fallback = useFemale ? FemaleTexture : MaleTexture;
+        string key = useFemale ? AssetRegistry.PlayerFemale : AssetRegistry.PlayerMale;
+        Texture2D spritesheet = AssetRegistry.Instance != null
+            ? AssetRegistry.Instance.GetTexture(key, null)
+            : null;
 
-        _idleFrames = LoadFrames(basePath + "idle_", 2, fallback);
-        _walkFrames = LoadFrames(basePath + "walk_", 2, fallback);
-        _jumpFrames = LoadFrames(basePath + "jump_", 1, fallback);
-        _fallFrames = LoadFrames(basePath + "fall_", 1, fallback);
+        _idleFrames = LoadFramesFromSheet(spritesheet, fallback, 0, 1);
+        _walkFrames = LoadFramesFromSheet(spritesheet, fallback, 2, 3);
+        _jumpFrames = LoadFramesFromSheet(spritesheet, fallback, 4);
+        _fallFrames = LoadFramesFromSheet(spritesheet, fallback, 5);
     }
 
-    private static Texture2D[] LoadFrames(string prefix, int frameCount, Texture2D fallback)
+    private static Texture2D[] LoadFramesFromSheet(Texture2D spritesheet, Texture2D fallback, params int[] frameIndices)
     {
         List<Texture2D> frames = new();
 
-        for (int i = 0; i < frameCount; i++)
+        if (spritesheet != null)
         {
-            Texture2D frame = ResourceLoader.Load<Texture2D>($"{prefix}{i}.png");
-            if (frame != null)
+            Vector2 sheetSize = spritesheet.GetSize();
+            int maxFrame = frameIndices.Length > 0 ? frameIndices[frameIndices.Length - 1] : 0;
+            bool validSheet = sheetSize.X >= (maxFrame + 1) * 64 && sheetSize.Y >= 64;
+
+            if (validSheet)
             {
-                frames.Add(frame);
+                foreach (int frameIndex in frameIndices)
+                {
+                    AtlasTexture atlasFrame = new()
+                    {
+                        Atlas = spritesheet,
+                        Region = new Rect2(frameIndex * 64, 0, 64, 64)
+                    };
+                    frames.Add(atlasFrame);
+                }
+            }
+        }
+
+        if (frames.Count == 0)
+        {
+            foreach (int _ in frameIndices)
+            {
+                if (fallback != null)
+                {
+                    frames.Add(fallback);
+                }
             }
         }
 

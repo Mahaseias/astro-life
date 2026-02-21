@@ -1,4 +1,4 @@
-﻿public static class ScenePaths
+public static class ScenePaths
 {
     public const string MainMenu = "res://Scenes/MainMenu.tscn";
     public const string W1_1 = "res://Scenes/W1_1.tscn";

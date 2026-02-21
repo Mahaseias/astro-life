@@ -1,4 +1,4 @@
-﻿using Godot;
+using Godot;
 
 public partial class CollectorBoss2D : Node2D
 {
@@ -19,6 +19,8 @@ public partial class CollectorBoss2D : Node2D
     private float _stateTimer;
 
     private Area2D _coreArea;
+    private Sprite2D _bodyVisual;
+    private Sprite2D _coreVisual;
     private Label _statusLabel;
     private PlayerController _player;
 
@@ -26,8 +28,25 @@ public partial class CollectorBoss2D : Node2D
     {
         _hp = Mathf.Max(1, MaxHp);
 
+        _bodyVisual = GetNodeOrNull<Sprite2D>("Body");
         _coreArea = GetNode<Area2D>("Core");
+        _coreVisual = GetNodeOrNull<Sprite2D>("Core/Visual");
         _statusLabel = GetNodeOrNull<Label>("StatusLabel");
+
+        if (AssetRegistry.Instance != null)
+        {
+            if (_bodyVisual != null)
+            {
+                _bodyVisual.Texture = AssetRegistry.Instance.GetTexture(AssetRegistry.BossBody, _bodyVisual.Texture);
+                AssetRegistry.Instance.ApplyNearest(_bodyVisual);
+            }
+
+            if (_coreVisual != null)
+            {
+                _coreVisual.Texture = AssetRegistry.Instance.GetTexture(AssetRegistry.BossCore, _coreVisual.Texture);
+                AssetRegistry.Instance.ApplyNearest(_coreVisual);
+            }
+        }
 
         _coreArea.BodyEntered += OnCoreBodyEntered;
         EnterInvulnerable();

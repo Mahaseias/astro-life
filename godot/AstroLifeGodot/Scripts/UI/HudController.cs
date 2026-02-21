@@ -1,22 +1,50 @@
-﻿using Godot;
+using Godot;
 
 public partial class HudController : CanvasLayer
 {
     [Export] public NodePath OxygenBarPath = "Root/OxygenBar";
     [Export] public NodePath OxygenTextPath = "Root/OxygenText";
     [Export] public NodePath DebugTextPath = "Root/DebugText";
+    [Export] public NodePath OxygenIconPath = "Root/OxygenIcon";
+    [Export] public NodePath PanelPath = "Root/Panel";
 
-    private Range _oxygenBar;
+    private TextureProgressBar _oxygenBar;
     private Label _oxygenText;
     private Label _debugText;
+    private TextureRect _oxygenIcon;
+    private TextureRect _panel;
 
     private PlayerController _player;
 
     public override void _Ready()
     {
-        _oxygenBar = GetNodeOrNull<Range>(OxygenBarPath);
+        _oxygenBar = GetNodeOrNull<TextureProgressBar>(OxygenBarPath);
         _oxygenText = GetNodeOrNull<Label>(OxygenTextPath);
         _debugText = GetNodeOrNull<Label>(DebugTextPath);
+        _oxygenIcon = GetNodeOrNull<TextureRect>(OxygenIconPath);
+        _panel = GetNodeOrNull<TextureRect>(PanelPath);
+
+        if (AssetRegistry.Instance != null)
+        {
+            if (_oxygenBar != null)
+            {
+                _oxygenBar.TextureUnder = AssetRegistry.Instance.GetTexture(AssetRegistry.UiOxygenBar, _oxygenBar.TextureUnder);
+                _oxygenBar.TextureProgress = AssetRegistry.Instance.GetTexture(AssetRegistry.UiOxygenBarFill, _oxygenBar.TextureProgress);
+                AssetRegistry.Instance.ApplyNearest(_oxygenBar);
+            }
+
+            if (_oxygenIcon != null)
+            {
+                _oxygenIcon.Texture = AssetRegistry.Instance.GetTexture(AssetRegistry.UiOxygenIcon, _oxygenIcon.Texture);
+                AssetRegistry.Instance.ApplyNearest(_oxygenIcon);
+            }
+
+            if (_panel != null)
+            {
+                _panel.Texture = AssetRegistry.Instance.GetTexture(AssetRegistry.UiPanel, _panel.Texture);
+                AssetRegistry.Instance.ApplyNearest(_panel);
+            }
+        }
     }
 
     public override void _Process(double delta)

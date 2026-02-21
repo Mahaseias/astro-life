@@ -1,4 +1,4 @@
-﻿using Godot;
+using Godot;
 
 public partial class Checkpoint : Area2D
 {
@@ -6,15 +6,30 @@ public partial class Checkpoint : Area2D
     [Export] public NodePath BeaconPath = "Beacon";
     [Export] public NodePath HologramPath = "Hologram";
 
-    private CanvasItem _beacon;
-    private CanvasItem _hologram;
+    private Sprite2D _beacon;
+    private Sprite2D _hologram;
     private bool _isActive;
     private float _time;
 
     public override void _Ready()
     {
-        _beacon = GetNodeOrNull<CanvasItem>(BeaconPath);
-        _hologram = GetNodeOrNull<CanvasItem>(HologramPath);
+        _beacon = GetNodeOrNull<Sprite2D>(BeaconPath);
+        _hologram = GetNodeOrNull<Sprite2D>(HologramPath);
+
+        if (AssetRegistry.Instance != null)
+        {
+            if (_beacon != null)
+            {
+                _beacon.Texture = AssetRegistry.Instance.GetTexture(AssetRegistry.Checkpoint, _beacon.Texture);
+                AssetRegistry.Instance.ApplyNearest(_beacon);
+            }
+
+            if (_hologram != null)
+            {
+                _hologram.Texture = AssetRegistry.Instance.GetTexture(AssetRegistry.CheckpointHolo, _hologram.Texture);
+                AssetRegistry.Instance.ApplyNearest(_hologram);
+            }
+        }
 
         BodyEntered += OnBodyEntered;
         SetVisual(false);

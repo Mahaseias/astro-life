@@ -1,4 +1,4 @@
-﻿using Godot;
+using Godot;
 
 public partial class OxygenPickup : Area2D
 {
@@ -7,16 +7,31 @@ public partial class OxygenPickup : Area2D
     [Export] public float BobSpeed = 3.2f;
     [Export] public float GlowPulseSpeed = 4.8f;
 
-    private Node2D _visual;
-    private Node2D _glow;
+    private Sprite2D _visual;
+    private Sprite2D _glow;
     private Vector2 _visualBasePosition;
     private float _time;
 
     public override void _Ready()
     {
-        _visual = GetNodeOrNull<Node2D>("Visual");
-        _glow = GetNodeOrNull<Node2D>("Glow");
+        _visual = GetNodeOrNull<Sprite2D>("Visual");
+        _glow = GetNodeOrNull<Sprite2D>("Glow");
         _visualBasePosition = _visual != null ? _visual.Position : Vector2.Zero;
+
+        if (AssetRegistry.Instance != null)
+        {
+            if (_visual != null)
+            {
+                _visual.Texture = AssetRegistry.Instance.GetTexture(AssetRegistry.OxygenPickup, _visual.Texture);
+                AssetRegistry.Instance.ApplyNearest(_visual);
+            }
+
+            if (_glow != null)
+            {
+                _glow.Texture = AssetRegistry.Instance.GetTexture(AssetRegistry.OxygenPickupGlow, _glow.Texture);
+                AssetRegistry.Instance.ApplyNearest(_glow);
+            }
+        }
 
         BodyEntered += OnBodyEntered;
     }

@@ -1,4 +1,4 @@
-﻿using Godot;
+using Godot;
 
 public partial class PlayerController : CharacterBody2D
 {
