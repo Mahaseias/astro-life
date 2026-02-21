@@ -1,0 +1,59 @@
+﻿[gd_scene load_steps=9 format=3]
+
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/Player.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/HUD.tscn" id="2_hud"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/Platform.tscn" id="3_platform"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/BossPrefab.tscn" id="4_boss"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/KillZone.tscn" id="5_kill"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/OxygenPickup.tscn" id="6_pickup"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/Checkpoint.tscn" id="7_checkpoint"]
+
+[node name="Boss" type="Node2D"]
+
+[node name="Background" type="Polygon2D" parent="."]
+color = Color(0.1, 0.06, 0.1, 1)
+polygon = PackedVector2Array(-2000, -1000, 3000, -1000, 3000, 1600, -2000, 1600)
+
+[node name="SceneLabel" type="Label" parent="."]
+offset_left = 20.0
+offset_top = 100.0
+offset_right = 300.0
+offset_bottom = 130.0
+text = "BOSS ARENA"
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+position = Vector2(260, 560)
+
+[node name="HUD" parent="." instance=ExtResource("2_hud")]
+
+[node name="Ground" parent="." instance=ExtResource("3_platform")]
+position = Vector2(900, 660)
+scale = Vector2(8.0, 1.0)
+
+[node name="WallLeft" parent="." instance=ExtResource("3_platform")]
+position = Vector2(120, 520)
+scale = Vector2(0.35, 6.0)
+
+[node name="WallRight" parent="." instance=ExtResource("3_platform")]
+position = Vector2(1700, 520)
+scale = Vector2(0.35, 6.0)
+
+[node name="Checkpoint" parent="." instance=ExtResource("7_checkpoint")]
+position = Vector2(300, 580)
+CheckpointId = "BOSS_CP"
+
+[node name="BossEntity" parent="." instance=ExtResource("4_boss")]
+position = Vector2(980, 540)
+MaxHp = 3
+InvulnerableDuration = 5.0
+VulnerableDuration = 4.0
+InvulnerableDrainMultiplier = 2.5
+
+[node name="Pickup01" parent="." instance=ExtResource("6_pickup")]
+position = Vector2(640, 560)
+
+[node name="Pickup02" parent="." instance=ExtResource("6_pickup")]
+position = Vector2(1280, 560)
+
+[node name="KillZone" parent="." instance=ExtResource("5_kill")]
+position = Vector2(900, 900)

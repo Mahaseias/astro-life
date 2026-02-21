@@ -1,0 +1,18 @@
+﻿[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Systems/KillZone.cs" id="1_kill"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_kill"]
+size = Vector2(2000, 120)
+
+[node name="KillZone" type="Area2D"]
+script = ExtResource("1_kill")
+monitoring = true
+monitorable = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_kill")
+
+[node name="Visual" type="Polygon2D" parent="."]
+color = Color(1, 0.2, 0.2, 0.2)
+polygon = PackedVector2Array(-1000, -60, 1000, -60, 1000, 60, -1000, 60)

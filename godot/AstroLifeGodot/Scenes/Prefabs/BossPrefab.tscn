@@ -1,0 +1,33 @@
+﻿[gd_scene load_steps=3 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Enemies/CollectorBoss2D.cs" id="1_boss"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_core"]
+radius = 20.0
+
+[node name="CollectorBoss2D" type="Node2D"]
+script = ExtResource("1_boss")
+
+[node name="Body" type="Polygon2D" parent="."]
+color = Color(0.95, 0.45, 0.45, 1)
+polygon = PackedVector2Array(-70, -40, 70, -40, 70, 40, -70, 40)
+
+[node name="Core" type="Area2D" parent="."]
+position = Vector2(0, 0)
+monitoring = true
+monitorable = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Core"]
+shape = SubResource("CircleShape2D_core")
+
+[node name="Visual" type="Polygon2D" parent="Core"]
+color = Color(0.4, 1, 0.5, 1)
+polygon = PackedVector2Array(0, -20, 20, 0, 0, 20, -20, 0)
+
+[node name="StatusLabel" type="Label" parent="."]
+offset_left = -200.0
+offset_top = -90.0
+offset_right = 200.0
+offset_bottom = -50.0
+horizontal_alignment = 1
+text = "Boss HP: 3 | INVULNERAVEL"

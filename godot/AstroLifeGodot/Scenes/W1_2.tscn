@@ -1,0 +1,90 @@
+﻿[gd_scene load_steps=8 format=3]
+
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/Player.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/HUD.tscn" id="2_hud"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/Platform.tscn" id="3_platform"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/OxygenPickup.tscn" id="4_pickup"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/Checkpoint.tscn" id="5_checkpoint"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/ScenePortal.tscn" id="6_portal"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/KillZone.tscn" id="7_kill"]
+
+[node name="W1_2" type="Node2D"]
+
+[node name="Background" type="Polygon2D" parent="."]
+color = Color(0.06, 0.08, 0.15, 1)
+polygon = PackedVector2Array(-2000, -1000, 3500, -1000, 3500, 1600, -2000, 1600)
+
+[node name="SceneLabel" type="Label" parent="."]
+offset_left = 20.0
+offset_top = 100.0
+offset_right = 280.0
+offset_bottom = 130.0
+text = "W1_2"
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+position = Vector2(110, 560)
+
+[node name="HUD" parent="." instance=ExtResource("2_hud")]
+
+[node name="GroundA" parent="." instance=ExtResource("3_platform")]
+position = Vector2(250, 660)
+scale = Vector2(2.2, 1.0)
+
+[node name="GroundB" parent="." instance=ExtResource("3_platform")]
+position = Vector2(660, 610)
+scale = Vector2(1.3, 1.0)
+
+[node name="GroundC" parent="." instance=ExtResource("3_platform")]
+position = Vector2(980, 560)
+scale = Vector2(1.0, 1.0)
+
+[node name="GroundD" parent="." instance=ExtResource("3_platform")]
+position = Vector2(1250, 520)
+scale = Vector2(0.9, 1.0)
+
+[node name="GroundE" parent="." instance=ExtResource("3_platform")]
+position = Vector2(1520, 480)
+scale = Vector2(1.0, 1.0)
+
+[node name="SkyA" parent="." instance=ExtResource("3_platform")]
+position = Vector2(830, 470)
+scale = Vector2(0.7, 1.0)
+
+[node name="SkyB" parent="." instance=ExtResource("3_platform")]
+position = Vector2(1120, 430)
+scale = Vector2(0.7, 1.0)
+
+[node name="Checkpoint1" parent="." instance=ExtResource("5_checkpoint")]
+position = Vector2(1000, 520)
+CheckpointId = "W1_2_CP1"
+
+[node name="PortalToBoss" parent="." instance=ExtResource("6_portal")]
+position = Vector2(1760, 400)
+NextScenePath = "res://Scenes/Boss.tscn"
+
+[node name="Pickup01" parent="." instance=ExtResource("4_pickup")]
+position = Vector2(320, 610)
+
+[node name="Pickup02" parent="." instance=ExtResource("4_pickup")]
+position = Vector2(560, 560)
+
+[node name="Pickup03" parent="." instance=ExtResource("4_pickup")]
+position = Vector2(710, 560)
+
+[node name="Pickup04" parent="." instance=ExtResource("4_pickup")]
+position = Vector2(900, 500)
+
+[node name="Pickup05" parent="." instance=ExtResource("4_pickup")]
+position = Vector2(1040, 510)
+
+[node name="Pickup06" parent="." instance=ExtResource("4_pickup")]
+position = Vector2(1220, 460)
+
+[node name="Pickup07" parent="." instance=ExtResource("4_pickup")]
+position = Vector2(1400, 430)
+
+[node name="Pickup08" parent="." instance=ExtResource("4_pickup")]
+position = Vector2(1620, 390)
+
+[node name="KillZone" parent="." instance=ExtResource("7_kill")]
+position = Vector2(900, 900)
