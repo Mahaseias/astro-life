@@ -1,9 +1,11 @@
-﻿[gd_scene load_steps=3 format=3]
+﻿[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://Scripts/Systems/OxygenPickup.cs" id="1_pickup"]
+[ext_resource type="Texture2D" path="res://Art/Pickups/oxygen_capsule_32.png" id="2_capsule"]
+[ext_resource type="Texture2D" path="res://Art/Pickups/oxygen_capsule_glow_32.png" id="3_glow"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_pickup"]
-radius = 10.0
+radius = 11.0
 
 [node name="OxygenPickup" type="Area2D"]
 script = ExtResource("1_pickup")
@@ -13,6 +15,10 @@ monitorable = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("CircleShape2D_pickup")
 
-[node name="Visual" type="Polygon2D" parent="."]
-color = Color(0.3, 0.95, 1, 1)
-polygon = PackedVector2Array(0, -10, 10, 0, 0, 10, -10, 0)
+[node name="Glow" type="Sprite2D" parent="."]
+texture_filter = 0
+texture = ExtResource("3_glow")
+
+[node name="Visual" type="Sprite2D" parent="."]
+texture_filter = 0
+texture = ExtResource("2_capsule")

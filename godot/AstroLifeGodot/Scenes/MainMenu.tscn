@@ -1,6 +1,9 @@
-﻿[gd_scene load_steps=2 format=3]
+﻿[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://Scripts/UI/MainMenuController.cs" id="1_menu"]
+[ext_resource type="Texture2D" path="res://Art/Backgrounds/space_bg.png" id="2_space"]
+[ext_resource type="Texture2D" path="res://Art/Characters/astronaut_male_portrait.png" id="3_male"]
+[ext_resource type="Texture2D" path="res://Art/Characters/astronaut_female_portrait.png" id="4_female"]
 
 [node name="MainMenu" type="Control"]
 layout_mode = 3
@@ -11,14 +14,25 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_menu")
 
-[node name="Background" type="ColorRect" parent="."]
+[node name="Background" type="TextureRect" parent="."]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-color = Color(0.05, 0.08, 0.15, 1)
+texture_filter = 0
+texture = ExtResource("2_space")
+stretch_mode = 6
+
+[node name="Overlay" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.06, 0.1, 0.18, 0.42)
 
 [node name="Center" type="CenterContainer" parent="."]
 layout_mode = 1
@@ -36,19 +50,35 @@ theme_override_constants/separation = 14
 
 [node name="Title" type="Label" parent="Center/VBox"]
 layout_mode = 2
-theme_override_font_sizes/font_size = 42
+theme_override_colors/font_color = Color(0.97, 0.95, 0.87, 1)
+theme_override_font_sizes/font_size = 44
 horizontal_alignment = 1
-text = "ASTRO LIFE - VERTICAL SLICE"
+text = "ASTRO LIFE"
 
 [node name="Subtitle" type="Label" parent="Center/VBox"]
 layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.84, 1, 1)
 horizontal_alignment = 1
-text = "2.5D • Oxigenio • Checkpoint • Boss"
+text = "Escolha seu astronauta"
 
-[node name="PlayButton" type="Button" parent="Center/VBox"]
+[node name="PlayMaleButton" type="Button" parent="Center/VBox"]
+custom_minimum_size = Vector2(320, 54)
 layout_mode = 2
-text = "Jogar"
+icon = ExtResource("3_male")
+expand_icon = true
+theme_override_colors/font_color = Color(0.95, 0.96, 1, 1)
+text = "Jogar - Astronauta"
+
+[node name="PlayFemaleButton" type="Button" parent="Center/VBox"]
+custom_minimum_size = Vector2(320, 54)
+layout_mode = 2
+icon = ExtResource("4_female")
+expand_icon = true
+theme_override_colors/font_color = Color(0.95, 0.96, 1, 1)
+text = "Jogar - Astronauta Feminina"
 
 [node name="QuitButton" type="Button" parent="Center/VBox"]
+custom_minimum_size = Vector2(320, 46)
 layout_mode = 2
+theme_override_colors/font_color = Color(1, 0.88, 0.69, 1)
 text = "Sair"

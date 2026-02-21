@@ -4,15 +4,24 @@ public partial class MainMenuController : Control
 {
     public override void _Ready()
     {
-        Button playButton = GetNode<Button>("Center/VBox/PlayButton");
+        Button playMaleButton = GetNode<Button>("Center/VBox/PlayMaleButton");
+        Button playFemaleButton = GetNode<Button>("Center/VBox/PlayFemaleButton");
         Button quitButton = GetNode<Button>("Center/VBox/QuitButton");
 
-        playButton.Pressed += OnPlayPressed;
+        playMaleButton.Pressed += OnPlayMalePressed;
+        playFemaleButton.Pressed += OnPlayFemalePressed;
         quitButton.Pressed += OnQuitPressed;
     }
 
-    private void OnPlayPressed()
+    private void OnPlayMalePressed()
     {
+        GameSession.Instance?.SelectMale();
+        GetTree().ChangeSceneToFile(ScenePaths.W1_1);
+    }
+
+    private void OnPlayFemalePressed()
+    {
+        GameSession.Instance?.SelectFemale();
         GetTree().ChangeSceneToFile(ScenePaths.W1_1);
     }
 

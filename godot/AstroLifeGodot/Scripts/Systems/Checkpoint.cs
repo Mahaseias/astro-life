@@ -3,16 +3,41 @@
 public partial class Checkpoint : Area2D
 {
     [Export] public string CheckpointId = "checkpoint";
-    [Export] public Color InactiveColor = new(0.3f, 0.8f, 1f, 1f);
-    [Export] public Color ActiveColor = new(0.2f, 1f, 0.3f, 1f);
+    [Export] public NodePath BeaconPath = "Beacon";
+    [Export] public NodePath HologramPath = "Hologram";
 
-    private Polygon2D _visual;
+    private CanvasItem _beacon;
+    private CanvasItem _hologram;
+    private bool _isActive;
+    private float _time;
 
     public override void _Ready()
     {
-        _visual = GetNodeOrNull<Polygon2D>("Visual");
+        _beacon = GetNodeOrNull<CanvasItem>(BeaconPath);
+        _hologram = GetNodeOrNull<CanvasItem>(HologramPath);
+
         BodyEntered += OnBodyEntered;
         SetVisual(false);
+    }
+
+    public override void _Process(double delta)
+    {
+        _time += (float)delta;
+
+        if (_hologram != null)
+        {
+            float pulseSpeed = _isActive ? 5.5f : 2.2f;
+            float alphaBase = _isActive ? 0.45f : 0.25f;
+            float alphaRange = _isActive ? 0.4f : 0.15f;
+            float alpha = alphaBase + ((Mathf.Sin(_time * pulseSpeed) + 1f) * 0.5f * alphaRange);
+            _hologram.Modulate = new Color(1f, 1f, 1f, alpha);
+        }
+
+        if (_beacon != null && _isActive)
+        {
+            float warm = 0.88f + ((Mathf.Sin(_time * 6.2f) + 1f) * 0.06f);
+            _beacon.Modulate = new Color(1f, warm, 0.95f, 1f);
+        }
     }
 
     private void OnBodyEntered(Node2D body)
@@ -28,9 +53,20 @@ public partial class Checkpoint : Area2D
 
     private void SetVisual(bool active)
     {
-        if (_visual != null)
+        _isActive = active;
+
+        if (_beacon != null)
         {
-            _visual.Color = active ? ActiveColor : InactiveColor;
+            _beacon.Modulate = active
+                ? new Color(1f, 1f, 1f, 1f)
+                : new Color(0.82f, 0.86f, 0.92f, 0.9f);
+        }
+
+        if (_hologram != null)
+        {
+            _hologram.Modulate = active
+                ? new Color(1f, 1f, 1f, 0.6f)
+                : new Color(1f, 1f, 1f, 0.25f);
         }
     }
 }

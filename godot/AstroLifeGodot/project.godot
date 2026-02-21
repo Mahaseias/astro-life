@@ -9,6 +9,7 @@ config/features=PackedStringArray("4.2", "C#", "Forward Plus")
 config/icon="res://icon.svg"
 
 [autoload]
+GameSession="*res://Scripts/Core/GameSession.cs"
 RespawnManager="*res://Scripts/Core/RespawnManager.cs"
 GlobalDebug="*res://Scripts/Core/GlobalDebug.cs"
 

@@ -1,6 +1,7 @@
-﻿[gd_scene load_steps=3 format=3]
+﻿[gd_scene load_steps=4 format=3]
 
 [ext_resource type="Script" path="res://Scripts/Systems/KillZone.cs" id="1_kill"]
+[ext_resource type="Texture2D" path="res://Art/Hazards/killzone_field_2000x120.png" id="2_field"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_kill"]
 size = Vector2(2000, 120)
@@ -13,6 +14,6 @@ monitorable = true
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 shape = SubResource("RectangleShape2D_kill")
 
-[node name="Visual" type="Polygon2D" parent="."]
-color = Color(1, 0.2, 0.2, 0.2)
-polygon = PackedVector2Array(-1000, -60, 1000, -60, 1000, 60, -1000, 60)
+[node name="Visual" type="Sprite2D" parent="."]
+texture_filter = 0
+texture = ExtResource("2_field")

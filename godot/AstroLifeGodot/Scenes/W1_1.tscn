@@ -1,4 +1,4 @@
-﻿[gd_scene load_steps=8 format=3]
+﻿[gd_scene load_steps=12 format=3]
 
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/Player.tscn" id="1_player"]
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/HUD.tscn" id="2_hud"]
@@ -7,19 +7,42 @@
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/Checkpoint.tscn" id="5_checkpoint"]
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/ScenePortal.tscn" id="6_portal"]
 [ext_resource type="PackedScene" path="res://Scenes/Prefabs/KillZone.tscn" id="7_kill"]
+[ext_resource type="Texture2D" path="res://Art/Backgrounds/space_bg.png" id="8_bg"]
+[ext_resource type="Texture2D" path="res://Art/Props/satellite_64.png" id="9_sat"]
+[ext_resource type="Texture2D" path="res://Art/Props/solar_panel_64.png" id="10_solar"]
+[ext_resource type="Texture2D" path="res://Art/Props/station_module_96.png" id="11_module"]
 
 [node name="W1_1" type="Node2D"]
 
-[node name="Background" type="Polygon2D" parent="."]
-color = Color(0.08, 0.1, 0.18, 1)
-polygon = PackedVector2Array(-2000, -1000, 3000, -1000, 3000, 1600, -2000, 1600)
+[node name="Background" type="Sprite2D" parent="."]
+centered = false
+position = Vector2(-160, -120)
+texture_filter = 0
+scale = Vector2(3.2, 3.2)
+texture = ExtResource("8_bg")
 
 [node name="SceneLabel" type="Label" parent="."]
 offset_left = 20.0
 offset_top = 100.0
 offset_right = 280.0
 offset_bottom = 130.0
-text = "W1_1"
+theme_override_colors/font_color = Color(0.96, 0.95, 0.86, 1)
+text = "W1_1 ORBITAL MAINT"
+
+[node name="BackdropSatellite" type="Sprite2D" parent="."]
+position = Vector2(450, 160)
+texture_filter = 0
+texture = ExtResource("9_sat")
+
+[node name="BackdropSolar" type="Sprite2D" parent="."]
+position = Vector2(980, 120)
+texture_filter = 0
+texture = ExtResource("10_solar")
+
+[node name="BackdropModule" type="Sprite2D" parent="."]
+position = Vector2(1420, 170)
+texture_filter = 0
+texture = ExtResource("11_module")
 
 [node name="Player" parent="." instance=ExtResource("1_player")]
 position = Vector2(120, 560)

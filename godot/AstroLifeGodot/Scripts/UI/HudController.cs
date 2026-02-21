@@ -6,7 +6,7 @@ public partial class HudController : CanvasLayer
     [Export] public NodePath OxygenTextPath = "Root/OxygenText";
     [Export] public NodePath DebugTextPath = "Root/DebugText";
 
-    private ProgressBar _oxygenBar;
+    private Range _oxygenBar;
     private Label _oxygenText;
     private Label _debugText;
 
@@ -14,7 +14,7 @@ public partial class HudController : CanvasLayer
 
     public override void _Ready()
     {
-        _oxygenBar = GetNodeOrNull<ProgressBar>(OxygenBarPath);
+        _oxygenBar = GetNodeOrNull<Range>(OxygenBarPath);
         _oxygenText = GetNodeOrNull<Label>(OxygenTextPath);
         _debugText = GetNodeOrNull<Label>(DebugTextPath);
     }
@@ -45,14 +45,14 @@ public partial class HudController : CanvasLayer
 
         if (_oxygenText != null)
         {
-            _oxygenText.Text = $"Oxigenio: {oxygen.CurrentOxygen:0}/{oxygen.MaxOxygen:0}";
+            _oxygenText.Text = $"O2: {oxygen.CurrentOxygen:0}/{oxygen.MaxOxygen:0}";
         }
 
         if (_debugText != null)
         {
             string sceneName = GetTree().CurrentScene != null ? GetTree().CurrentScene.Name : "none";
             string checkpoint = RespawnManager.Instance != null ? RespawnManager.Instance.GetActiveCheckpointLabel() : "spawn";
-            _debugText.Text = $"Cena: {sceneName} | O2: {oxygen.CurrentOxygen:0} | CP: {checkpoint}";
+            _debugText.Text = $"Scene: {sceneName} | O2: {oxygen.CurrentOxygen:0} | CP: {checkpoint}";
         }
     }
 }

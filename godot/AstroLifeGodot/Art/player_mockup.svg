@@ -1,0 +1,30 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="360" height="300" viewBox="0 0 360 300">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#0a1220"/>
+      <stop offset="100%" stop-color="#18263f"/>
+    </linearGradient>
+    <linearGradient id="suit" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#6de6ff"/>
+      <stop offset="100%" stop-color="#2fb8de"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="360" height="300" fill="url(#bg)"/>
+  <rect x="0" y="232" width="360" height="68" fill="#283955"/>
+
+  <g transform="translate(180,180)">
+    <rect x="-22" y="-78" width="44" height="70" rx="8" fill="url(#suit)" stroke="#b8f5ff" stroke-width="3"/>
+    <rect x="-17" y="-64" width="34" height="26" rx="6" fill="#0f172a" opacity="0.75"/>
+    <rect x="-20" y="-8" width="18" height="44" rx="6" fill="#49d5f3" stroke="#b8f5ff" stroke-width="2"/>
+    <rect x="2" y="-8" width="18" height="44" rx="6" fill="#49d5f3" stroke="#b8f5ff" stroke-width="2"/>
+    <rect x="-40" y="-66" width="14" height="44" rx="6" fill="#49d5f3" stroke="#b8f5ff" stroke-width="2"/>
+    <rect x="26" y="-66" width="14" height="44" rx="6" fill="#49d5f3" stroke="#b8f5ff" stroke-width="2"/>
+    <circle cx="-7" cy="-52" r="3" fill="#a2ffb3"/>
+    <circle cx="7" cy="-52" r="3" fill="#a2ffb3"/>
+  </g>
+
+  <text x="180" y="36" fill="#d4f6ff" font-size="18" text-anchor="middle" font-family="Verdana, sans-serif">
+    Astro Life - Player Placeholder
+  </text>
+</svg>
