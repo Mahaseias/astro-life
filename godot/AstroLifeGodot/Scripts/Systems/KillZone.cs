@@ -2,6 +2,8 @@ using Godot;
 
 public partial class KillZone : Area2D
 {
+    [Export] public bool ShowVisual = false;
+
     public override void _Ready()
     {
         Sprite2D visual = GetNodeOrNull<Sprite2D>("Visual");
@@ -16,6 +18,8 @@ public partial class KillZone : Area2D
             {
                 visual.TextureFilter = CanvasItem.TextureFilterEnum.Nearest;
             }
+
+            visual.Visible = ShowVisual;
         }
 
         BodyEntered += OnBodyEntered;

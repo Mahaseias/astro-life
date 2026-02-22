@@ -22,6 +22,9 @@ public partial class AssetRegistry : Node
     public const string HazardLaser = "Hazard_Laser";
     public const string HazardVapor = "Hazard_Vapor";
     public const string BackgroundSpace = "Background_Space";
+    public const string BackgroundW11 = "Background_W1_1";
+    public const string BackgroundW12 = "Background_W1_2";
+    public const string BackgroundBoss = "Background_Boss";
     public const string PropSatellite = "Prop_Satellite";
     public const string PropSolarPanel = "Prop_SolarPanel";
     public const string PropStationModule = "Prop_StationModule";
@@ -46,11 +49,14 @@ public partial class AssetRegistry : Node
         { UiPanel, "res://Art/UI/Panel16.png" },
         { BossBody, "res://Art/Enemies/CollectorBoss.png" },
         { BossCore, "res://Art/Enemies/CollectorBossCore.png" },
-        { Portal, "res://Art/Props/ScenePortal.png" },
+        { Portal, "res://Art/Systems/portal_gate_48x64.png" },
         { HazardKillZone, "res://Art/Props/KillZoneField.png" },
         { HazardLaser, "res://Art/Hazards/LaserBlue.png" },
         { HazardVapor, "res://Art/Hazards/OxygenVapor.png" },
         { BackgroundSpace, "res://Art/Backgrounds/SpaceBg.png" },
+        { BackgroundW11, "res://Art/Backgrounds/space_bg_w1_1.png" },
+        { BackgroundW12, "res://Art/Backgrounds/space_bg_w1_2.png" },
+        { BackgroundBoss, "res://Art/Backgrounds/space_bg_boss.png" },
         { PropSatellite, "res://Art/Props/Satellite.png" },
         { PropSolarPanel, "res://Art/Props/SolarPanel.png" },
         { PropStationModule, "res://Art/Props/StationModule.png" },
