@@ -7,6 +7,8 @@ public partial class HudController : CanvasLayer
     [Export] public NodePath DebugTextPath = "Root/DebugText";
     [Export] public NodePath OxygenIconPath = "Root/OxygenIcon";
     [Export] public NodePath PanelPath = "Root/Panel";
+    [Export] public bool AutoFixLegoPanel = true;
+    [Export] public Color SolidPanelColor = new(0.10f, 0.16f, 0.28f, 0.78f);
 
     private TextureProgressBar _oxygenBar;
     private Label _oxygenText;
@@ -45,6 +47,11 @@ public partial class HudController : CanvasLayer
                 AssetRegistry.Instance.ApplyNearest(_panel);
             }
         }
+
+        if (AutoFixLegoPanel)
+        {
+            ReplaceTiledPanelWithSolidBackdrop();
+        }
     }
 
     public override void _Process(double delta)
@@ -82,5 +89,55 @@ public partial class HudController : CanvasLayer
             string checkpoint = RespawnManager.Instance != null ? RespawnManager.Instance.GetActiveCheckpointLabel() : "spawn";
             _debugText.Text = $"Scene: {sceneName} | O2: {oxygen.CurrentOxygen:0} | CP: {checkpoint}";
         }
+    }
+
+    private void ReplaceTiledPanelWithSolidBackdrop()
+    {
+        if (_panel == null)
+        {
+            return;
+        }
+
+        bool tiledPanel = _panel.StretchMode == TextureRect.StretchModeEnum.Tile;
+        bool tinyTexture = _panel.Texture != null && (_panel.Texture.GetWidth() <= 32 || _panel.Texture.GetHeight() <= 32);
+        if (!tiledPanel && !tinyTexture)
+        {
+            return;
+        }
+
+        Control root = _panel.GetParent<Control>();
+        if (root == null)
+        {
+            return;
+        }
+
+        ColorRect backdrop = root.GetNodeOrNull<ColorRect>("HudBackdrop");
+        if (backdrop == null)
+        {
+            backdrop = new ColorRect
+            {
+                Name = "HudBackdrop",
+                Color = SolidPanelColor,
+                MouseFilter = Control.MouseFilterEnum.Ignore,
+                OffsetLeft = _panel.OffsetLeft,
+                OffsetTop = _panel.OffsetTop,
+                OffsetRight = _panel.OffsetRight,
+                OffsetBottom = _panel.OffsetBottom
+            };
+
+            root.AddChild(backdrop);
+            backdrop.Owner = root.Owner;
+            root.MoveChild(backdrop, _panel.GetIndex());
+        }
+        else
+        {
+            backdrop.Color = SolidPanelColor;
+            backdrop.OffsetLeft = _panel.OffsetLeft;
+            backdrop.OffsetTop = _panel.OffsetTop;
+            backdrop.OffsetRight = _panel.OffsetRight;
+            backdrop.OffsetBottom = _panel.OffsetBottom;
+        }
+
+        _panel.Visible = false;
     }
 }

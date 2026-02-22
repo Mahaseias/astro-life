@@ -4,7 +4,7 @@ using System.Collections.Generic;
 [Tool]
 public partial class AtlasRegistry : Node
 {
-    public const string SHEET_PATH = "res://Art/Tiles/StationTiles.png";
+    public const string SHEET_PATH = "res://Art/Spritesheets/StationSheet.png";
 
     // Adjustable atlas regions.
     public static readonly Rect2I REGION_OXYGEN_PICKUP = new(1030, 540, 64, 64);

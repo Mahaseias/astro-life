@@ -8,6 +8,8 @@
 
 config_version=5
 
+"ï»¿config_version"=5
+
 [application]
 
 config/name="AstroLifeGodot"
@@ -17,10 +19,10 @@ config/icon="res://icon.svg"
 
 [autoload]
 
-AssetRegistry="*res://Scripts/Core/AssetRegistry.cs"
 GameSession="*res://Scripts/Core/GameSession.cs"
 RespawnManager="*res://Scripts/Core/RespawnManager.cs"
 GlobalDebug="*res://Scripts/Core/GlobalDebug.cs"
+AssetRegistry="*res://Scripts/Core/AssetRegistry.cs"
 
 [display]
 

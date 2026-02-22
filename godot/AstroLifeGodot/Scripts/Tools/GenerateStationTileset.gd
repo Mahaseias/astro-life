@@ -1,44 +1,41 @@
 extends SceneTree
 
 const TILE_SIZE := 32
-const TEXTURE_PATH := "res://Art/Tiles/StationTiles.png"
-const TILESET_PATH := "res://Art/Tiles/StationTiles.tres"
-const SCENE_PATH := "res://Scenes/TestTiles.tscn"
+const TEXTURE_PATH := "res://Art/Spritesheets/StationSheet.png"
+const TILESET_PATH := "res://Tilesets/StationTileset.tres"
+const SCENE_PATH := "res://Scenes/TestLevel.tscn"
+const TILE_ATLAS_REGION := Rect2i(0, 0, 1024, 512) # top-left tile area only
 
 func _init() -> void:
-	var texture: Texture2D = load(TEXTURE_PATH)
-	if texture == null:
-		push_error("Texture not found: %s" % TEXTURE_PATH)
-		quit(1)
-		return
-
 	_apply_pixel_project_settings()
 	_configure_import_texture_flags()
 
-	var tileset := TileSet.new()
-	tileset.tile_size = Vector2i(TILE_SIZE, TILE_SIZE)
+	var texture: Texture2D = load(TEXTURE_PATH)
+	if texture == null:
+		push_error("[FixLego] Texture not found: %s" % TEXTURE_PATH)
+		quit(1)
+		return
 
-	var atlas := TileSetAtlasSource.new()
-	atlas.texture = texture
-	atlas.texture_region_size = Vector2i(TILE_SIZE, TILE_SIZE)
-
-	var source_id := tileset.add_source(atlas)
-	var used_tiles := _create_tiles_from_texture(atlas, texture)
-
-	var save_tileset_result := ResourceSaver.save(tileset, TILESET_PATH)
-	if save_tileset_result != OK:
-		push_error("Failed to save TileSet: %s" % TILESET_PATH)
+	var tileset := _build_tileset(texture)
+	if tileset == null:
+		push_error("[FixLego] Failed to build tileset.")
 		quit(2)
 		return
 
-	var scene_save_result := _create_test_scene(tileset, source_id, used_tiles)
-	if scene_save_result != OK:
-		push_error("Failed to save test scene: %s" % SCENE_PATH)
+	var save_tileset_result := ResourceSaver.save(tileset, TILESET_PATH)
+	if save_tileset_result != OK:
+		push_error("[FixLego] Failed to save TileSet: %s (%s)" % [TILESET_PATH, save_tileset_result])
 		quit(3)
 		return
 
-	print("TileSet generated: %s" % TILESET_PATH)
-	print("Scene generated: %s" % SCENE_PATH)
+	var scene_save_result := _upsert_test_scene(tileset)
+	if scene_save_result != OK:
+		push_error("[FixLego] Failed to save test scene: %s (%s)" % [SCENE_PATH, scene_save_result])
+		quit(4)
+		return
+
+	print("[FixLego] TileSet generated: %s" % TILESET_PATH)
+	print("[FixLego] Scene updated: %s" % SCENE_PATH)
 	quit(0)
 
 func _apply_pixel_project_settings() -> void:
@@ -57,79 +54,124 @@ func _configure_import_texture_flags() -> void:
 	if text.is_empty():
 		return
 
-	if not text.contains("mipmaps/generate=false"):
-		text += "\nmipmaps/generate=false\n"
+	text = _replace_or_append_line(text, "mipmaps/generate=", "mipmaps/generate=false")
+	text = _replace_or_append_line(text, "compress/mode=", "compress/mode=0")
 
 	var write := FileAccess.open(import_path, FileAccess.WRITE)
 	if write != null:
 		write.store_string(text)
 
-func _create_tiles_from_texture(atlas: TileSetAtlasSource, texture: Texture2D) -> Array[Vector2i]:
+func _replace_or_append_line(text: String, key_prefix: String, value_line: String) -> String:
+	var lines := text.split("\n")
+	var replaced := false
+	for i in range(lines.size()):
+		if lines[i].begins_with(key_prefix):
+			lines[i] = value_line
+			replaced = true
+	if not replaced:
+		lines.append(value_line)
+	return "\n".join(lines)
+
+func _build_tileset(texture: Texture2D) -> TileSet:
 	var image := texture.get_image()
 	if image == null:
-		return []
+		return null
 
-	var width := texture.get_width() / TILE_SIZE
-	var height := texture.get_height() / TILE_SIZE
-	var used: Array[Vector2i] = []
+	var sheet_size := Vector2i(texture.get_width(), texture.get_height())
+	var clamped := _clamp_region(TILE_ATLAS_REGION, sheet_size)
+	var start_cell_x := clamped.position.x / TILE_SIZE
+	var start_cell_y := clamped.position.y / TILE_SIZE
+	var cells_x := clamped.size.x / TILE_SIZE
+	var cells_y := clamped.size.y / TILE_SIZE
 
-	for y in range(height):
-		for x in range(width):
-			var atlas_coords := Vector2i(x, y)
-			if _is_cell_fully_transparent(image, x, y):
+	var tileset := TileSet.new()
+	tileset.tile_size = Vector2i(TILE_SIZE, TILE_SIZE)
+
+	var atlas := TileSetAtlasSource.new()
+	atlas.texture = texture
+	atlas.texture_region_size = Vector2i(TILE_SIZE, TILE_SIZE)
+	atlas.margins = Vector2i.ZERO
+	atlas.separation = Vector2i.ZERO
+
+	tileset.add_source(atlas)
+
+	var created := 0
+	for y in range(cells_y):
+		for x in range(cells_x):
+			var px := clamped.position.x + (x * TILE_SIZE)
+			var py := clamped.position.y + (y * TILE_SIZE)
+			if _is_cell_fully_transparent(image, px, py):
 				continue
+
+			var atlas_coords := Vector2i(start_cell_x + x, start_cell_y + y)
 			atlas.create_tile(atlas_coords)
-			used.append(atlas_coords)
+			created += 1
 
-	return used
+	print("[FixLego] Tiles created: %d" % created)
+	return tileset
 
-func _is_cell_fully_transparent(image: Image, grid_x: int, grid_y: int) -> bool:
-	var start_x := grid_x * TILE_SIZE
-	var start_y := grid_y * TILE_SIZE
+func _clamp_region(region: Rect2i, max_size: Vector2i) -> Rect2i:
+	var x := clampi(region.position.x, 0, max_size.x)
+	var y := clampi(region.position.y, 0, max_size.y)
+	var w := clampi(region.size.x, 0, max_size.x - x)
+	var h := clampi(region.size.y, 0, max_size.y - y)
+	w -= w % TILE_SIZE
+	h -= h % TILE_SIZE
+	return Rect2i(x, y, w, h)
 
+func _is_cell_fully_transparent(image: Image, start_x: int, start_y: int) -> bool:
 	for py in range(start_y, start_y + TILE_SIZE):
 		for px in range(start_x, start_x + TILE_SIZE):
 			if image.get_pixel(px, py).a > 0.01:
 				return false
-
 	return true
 
-func _create_test_scene(tileset: TileSet, source_id: int, used_tiles: Array[Vector2i]) -> int:
-	var root := Node2D.new()
-	root.name = "TestTiles"
+func _upsert_test_scene(tileset: TileSet) -> int:
+	var packed_existing := load(SCENE_PATH) as PackedScene
+	var root: Node2D
+	if packed_existing != null:
+		root = packed_existing.instantiate() as Node2D
+	if root == null:
+		root = Node2D.new()
+		root.name = "TestLevel"
 
-	var tilemap := TileMapLayer.new()
-	tilemap.name = "TileMap"
+	var tilemap := _find_first_tilemap(root)
+	if tilemap == null:
+		tilemap = TileMapLayer.new()
+		tilemap.name = "TileMap"
+		root.add_child(tilemap)
+		tilemap.owner = root
+
 	tilemap.tile_set = tileset
 	tilemap.texture_filter = CanvasItem.TEXTURE_FILTER_NEAREST
 	tilemap.texture_repeat = CanvasItem.TEXTURE_REPEAT_DISABLED
-	tilemap.position = Vector2.ZERO
 
-	root.add_child(tilemap)
-	tilemap.owner = root
-
-	_paint_demo_tiles(tilemap, source_id, used_tiles)
+	if tilemap.get_used_cells().is_empty():
+		_paint_demo_tiles(tilemap)
 
 	var packed := PackedScene.new()
 	var pack_result := packed.pack(root)
 	if pack_result != OK:
+		root.free()
 		return pack_result
+	var save_result := ResourceSaver.save(packed, SCENE_PATH)
+	root.free()
+	return save_result
 
-	return ResourceSaver.save(packed, SCENE_PATH)
+func _find_first_tilemap(node: Node) -> TileMapLayer:
+	if node is TileMapLayer:
+		return node as TileMapLayer
+	for child in node.get_children():
+		var found := _find_first_tilemap(child)
+		if found != null:
+			return found
+	return null
 
-func _paint_demo_tiles(tilemap: TileMapLayer, source_id: int, used_tiles: Array[Vector2i]) -> void:
-	if used_tiles.is_empty():
-		return
-
-	var max_tiles := mini(used_tiles.size(), 8)
-	for i in range(max_tiles):
-		tilemap.set_cell(Vector2i(i, 0), source_id, used_tiles[i], 0)
-
-	for x in range(20):
-		var atlas_coords := used_tiles[x % max_tiles]
-		tilemap.set_cell(Vector2i(x, 1), source_id, atlas_coords, 0)
-
-	for x in range(5):
-		for y in range(2):
-			var idx := (x + y) % max_tiles
-			tilemap.set_cell(Vector2i(6 + x, 2 + y), source_id, used_tiles[idx], 0)
+func _paint_demo_tiles(tilemap: TileMapLayer) -> void:
+	var atlas_coord := Vector2i.ZERO
+	for x in range(30):
+		tilemap.set_cell(Vector2i(x, 14), 0, atlas_coord, 0)
+	for x in range(6, 12):
+		tilemap.set_cell(Vector2i(x, 10), 0, atlas_coord, 0)
+	for x in range(17, 24):
+		tilemap.set_cell(Vector2i(x, 8), 0, atlas_coord, 0)

@@ -3,11 +3,11 @@ using Godot;
 [Tool]
 public partial class BuildStationTileset : EditorScript
 {
-    public const string SHEET_PATH = "res://Art/Tiles/StationTiles.png";
+    public const string SHEET_PATH = "res://Art/Spritesheets/StationSheet.png";
     public const string TILESET_PATH = "res://Tilesets/StationTileset.tres";
     public const int TILE_SIZE = 32;
 
-    // Tiles region (top-left quadrant) inside StationTiles.png (1536x1024).
+    // Tiles region (top-left quadrant) inside StationSheet.png (1536x1024).
     public static readonly Rect2I TILE_ATLAS_REGION_XYWH = new(0, 0, 1024, 512);
 
     public override void _Run()
