@@ -1,0 +1,17 @@
+C:\Users\mahaseias.carvalho\Downloads\Proj\astro-life\.godot\mono\temp\obj\Debug\AstroLife.csproj.AssemblyReference.cache
+C:\Users\mahaseias.carvalho\Downloads\Proj\astro-life\.godot\mono\temp\obj\Debug\AstroLife.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\mahaseias.carvalho\Downloads\Proj\astro-life\.godot\mono\temp\obj\Debug\AstroLife.AssemblyInfoInputs.cache
+C:\Users\mahaseias.carvalho\Downloads\Proj\astro-life\.godot\mono\temp\obj\Debug\AstroLife.AssemblyInfo.cs
+C:\Users\mahaseias.carvalho\Downloads\Proj\astro-life\.godot\mono\temp\obj\Debug\AstroLife.csproj.CoreCompileInputs.cache
+C:\Users\mahaseias.carvalho\Downloads\Proj\astro-life\.godot\mono\temp\bin\Debug\AstroLife.deps.json
+C:\Users\mahaseias.carvalho\Downloads\Proj\astro-life\.godot\mono\temp\bin\Debug\AstroLife.runtimeconfig.json
+C:\Users\mahaseias.carvalho\Downloads\Proj\astro-life\.godot\mono\temp\bin\Debug\AstroLife.dll
+C:\Users\mahaseias.carvalho\Downloads\Proj\astro-life\.godot\mono\temp\bin\Debug\AstroLife.pdb
+C:\Users\mahaseias.carvalho\Downloads\Proj\astro-life\.godot\mono\temp\bin\Debug\GodotSharp.dll
+C:\Users\mahaseias.carvalho\Downloads\Proj\astro-life\.godot\mono\temp\bin\Debug\GodotSharpEditor.dll
+C:\Users\mahaseias.carvalho\Downloads\Proj\astro-life\.godot\mono\temp\obj\Debug\AstroLife.csproj.Up2Date
+C:\Users\mahaseias.carvalho\Downloads\Proj\astro-life\.godot\mono\temp\obj\Debug\AstroLife.dll
+C:\Users\mahaseias.carvalho\Downloads\Proj\astro-life\.godot\mono\temp\obj\Debug\refint\AstroLife.dll
+C:\Users\mahaseias.carvalho\Downloads\Proj\astro-life\.godot\mono\temp\obj\Debug\AstroLife.pdb
+C:\Users\mahaseias.carvalho\Downloads\Proj\astro-life\.godot\mono\temp\obj\Debug\AstroLife.genruntimeconfig.cache
+C:\Users\mahaseias.carvalho\Downloads\Proj\astro-life\.godot\mono\temp\obj\Debug\ref\AstroLife.dll

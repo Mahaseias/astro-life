@@ -1,0 +1,63 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/Scenes/CharacterSelectController.cs" id="1_select"]
+
+[node name="CharacterSelect" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_select")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.05, 0.08, 0.14, 1)
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBox" type="VBoxContainer" parent="Center"]
+layout_mode = 2
+theme_override_constants/separation = 14
+
+[node name="Title" type="Label" parent="Center/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.95, 0.96, 1, 1)
+theme_override_font_sizes/font_size = 46
+text = "ASTRO LIFE"
+horizontal_alignment = 1
+
+[node name="Subtitle" type="Label" parent="Center/VBox"]
+layout_mode = 2
+theme_override_colors/font_color = Color(0.72, 0.84, 1, 1)
+text = "Escolha seu personagem"
+horizontal_alignment = 1
+
+[node name="MascButton" type="Button" parent="Center/VBox"]
+custom_minimum_size = Vector2(340, 54)
+layout_mode = 2
+text = "Jogar com Astro Masc"
+expand_icon = true
+
+[node name="FemButton" type="Button" parent="Center/VBox"]
+custom_minimum_size = Vector2(340, 54)
+layout_mode = 2
+text = "Jogar com Astro Fem"
+expand_icon = true
+
+[node name="QuitButton" type="Button" parent="Center/VBox"]
+custom_minimum_size = Vector2(340, 46)
+layout_mode = 2
+text = "Sair"
