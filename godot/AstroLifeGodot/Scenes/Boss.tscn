@@ -1,0 +1,110 @@
+[gd_scene load_steps=15 format=3]
+
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/Player.tscn" id="1_player"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/HUD.tscn" id="2_hud"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/Platform.tscn" id="3_platform"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/BossPrefab.tscn" id="4_boss"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/KillZone.tscn" id="5_kill"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/OxygenPickup.tscn" id="6_pickup"]
+[ext_resource type="PackedScene" path="res://Scenes/Prefabs/Checkpoint.tscn" id="7_checkpoint"]
+[ext_resource type="Texture2D" path="res://Art/Backgrounds/space_bg.png" id="8_bg"]
+[ext_resource type="Texture2D" path="res://Art/Props/station_module_96.png" id="9_module"]
+[ext_resource type="Texture2D" path="res://Art/Props/solar_panel_64.png" id="10_solar"]
+[ext_resource type="Texture2D" path="res://Art/Hazards/laser_blue_32.png" id="11_laser"]
+[ext_resource type="Texture2D" path="res://Art/Hazards/oxygen_vapor_32.png" id="12_vapor"]
+[ext_resource type="Script" path="res://Scripts/Core/StageArtAutoBinder.cs" id="13_stage_art"]
+
+[node name="Boss" type="Node2D"]
+script = ExtResource("13_stage_art")
+
+[node name="Background" type="Sprite2D" parent="."]
+centered = false
+position = Vector2(-160, -120)
+texture_filter = 0
+scale = Vector2(3.2, 3.2)
+modulate = Color(0.9, 0.9, 0.97, 1)
+texture = ExtResource("8_bg")
+
+[node name="SceneLabel" type="Label" parent="."]
+offset_left = 20.0
+offset_top = 100.0
+offset_right = 320.0
+offset_bottom = 130.0
+theme_override_colors/font_color = Color(0.97, 0.94, 0.82, 1)
+text = "BOSS ARENA - COLLECTOR"
+
+[node name="BackdropModule" type="Sprite2D" parent="."]
+position = Vector2(920, 140)
+texture_filter = 0
+texture = ExtResource("9_module")
+
+[node name="BackdropSolarL" type="Sprite2D" parent="."]
+position = Vector2(700, 160)
+texture_filter = 0
+texture = ExtResource("10_solar")
+
+[node name="BackdropSolarR" type="Sprite2D" parent="."]
+position = Vector2(1130, 160)
+texture_filter = 0
+texture = ExtResource("10_solar")
+
+[node name="HazardLaserL" type="Sprite2D" parent="."]
+position = Vector2(240, 500)
+texture_filter = 0
+scale = Vector2(6, 1)
+texture = ExtResource("11_laser")
+
+[node name="HazardLaserR" type="Sprite2D" parent="."]
+position = Vector2(1560, 500)
+texture_filter = 0
+scale = Vector2(6, 1)
+texture = ExtResource("11_laser")
+
+[node name="HazardVaporL" type="Sprite2D" parent="."]
+position = Vector2(570, 620)
+texture_filter = 0
+scale = Vector2(2, 2)
+texture = ExtResource("12_vapor")
+
+[node name="HazardVaporR" type="Sprite2D" parent="."]
+position = Vector2(1340, 620)
+texture_filter = 0
+scale = Vector2(2, 2)
+texture = ExtResource("12_vapor")
+
+[node name="Player" parent="." instance=ExtResource("1_player")]
+position = Vector2(260, 560)
+
+[node name="HUD" parent="." instance=ExtResource("2_hud")]
+
+[node name="Ground" parent="." instance=ExtResource("3_platform")]
+position = Vector2(900, 660)
+scale = Vector2(8.0, 1.0)
+
+[node name="WallLeft" parent="." instance=ExtResource("3_platform")]
+position = Vector2(120, 520)
+scale = Vector2(0.35, 6.0)
+
+[node name="WallRight" parent="." instance=ExtResource("3_platform")]
+position = Vector2(1700, 520)
+scale = Vector2(0.35, 6.0)
+
+[node name="Checkpoint" parent="." instance=ExtResource("7_checkpoint")]
+position = Vector2(300, 580)
+CheckpointId = "BOSS_CP"
+
+[node name="BossEntity" parent="." instance=ExtResource("4_boss")]
+position = Vector2(980, 540)
+MaxHp = 3
+InvulnerableDuration = 5.0
+VulnerableDuration = 4.0
+InvulnerableDrainMultiplier = 2.5
+
+[node name="Pickup01" parent="." instance=ExtResource("6_pickup")]
+position = Vector2(640, 560)
+
+[node name="Pickup02" parent="." instance=ExtResource("6_pickup")]
+position = Vector2(1280, 560)
+
+[node name="KillZone" parent="." instance=ExtResource("5_kill")]
+position = Vector2(900, 900)

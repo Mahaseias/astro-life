@@ -1,0 +1,34 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://Scripts/UI/AtlasRegionHelper.cs" id="1_helper"]
+
+[node name="AtlasRegionHelper" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_helper")
+
+[node name="TopLabel" type="Label" parent="."]
+offset_left = 12.0
+offset_top = 10.0
+offset_right = 900.0
+offset_bottom = 36.0
+text = "F12 = print mouse pixel. Drag with left mouse to print Rect2i."
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="SheetView" type="TextureRect" parent="Center"]
+custom_minimum_size = Vector2(1024, 680)
+layout_mode = 2
+texture_filter = 0
+expand_mode = 1
+stretch_mode = 4

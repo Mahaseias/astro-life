@@ -1,0 +1,39 @@
+﻿# Unity
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+[Mm]emoryCaptures/
+UserSettings/
+
+# Unity generated / cache
+*.unityproj
+*.suo
+*.tmp
+*.userprefs
+*.pidb
+*.booproj
+*.svd
+
+# Godot
+.godot/
+.import/
+export.cfg
+export_presets.cfg
+
+# Godot C#
+**/.mono/
+**/bin/
+**/obj/
+**/*.rsuser
+
+# IDE
+.vscode/
+.idea/
+.vs/
+
+# OS
+.DS_Store
+Thumbs.db

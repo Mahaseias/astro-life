@@ -1,0 +1,63 @@
+[gd_scene load_steps=6 format=3]
+
+[ext_resource type="Script" path="res://Scripts/UI/HudController.cs" id="1_hud"]
+[ext_resource type="Texture2D" path="res://Art/UI/oxygen_bar_bg_256x24.png" id="2_bar_bg"]
+[ext_resource type="Texture2D" path="res://Art/UI/oxygen_bar_fill_256x24.png" id="3_bar_fill"]
+[ext_resource type="Texture2D" path="res://Art/UI/oxygen_icon_16.png" id="4_icon"]
+[ext_resource type="Texture2D" path="res://Art/UI/panel_16.png" id="5_panel"]
+
+[node name="HUD" type="CanvasLayer"]
+script = ExtResource("1_hud")
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="TextureRect" parent="Root"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 350.0
+offset_bottom = 92.0
+texture_filter = 0
+texture = ExtResource("5_panel")
+stretch_mode = 1
+
+[node name="OxygenIcon" type="TextureRect" parent="Root"]
+offset_left = 16.0
+offset_top = 20.0
+offset_right = 32.0
+offset_bottom = 36.0
+texture_filter = 0
+texture = ExtResource("4_icon")
+
+[node name="OxygenBar" type="TextureProgressBar" parent="Root"]
+offset_left = 40.0
+offset_top = 16.0
+offset_right = 296.0
+offset_bottom = 40.0
+max_value = 100.0
+value = 100.0
+show_percentage = false
+under_texture = ExtResource("2_bar_bg")
+progress_texture = ExtResource("3_bar_fill")
+
+[node name="OxygenText" type="Label" parent="Root"]
+offset_left = 40.0
+offset_top = 43.0
+offset_right = 280.0
+offset_bottom = 62.0
+theme_override_colors/font_color = Color(0.94, 0.95, 0.98, 1)
+text = "O2: 100/100"
+
+[node name="DebugText" type="Label" parent="Root"]
+offset_left = 16.0
+offset_top = 66.0
+offset_right = 740.0
+offset_bottom = 88.0
+theme_override_colors/font_color = Color(0.67, 0.82, 0.98, 0.95)
+theme_override_font_sizes/font_size = 13
+text = "Scene: W1_1 | O2: 100 | CP: spawn"
